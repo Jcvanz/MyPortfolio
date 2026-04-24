@@ -63,4 +63,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // AUTO-SAVE
+    // Cria elemento de notificação "Salvando..."
+    const saveToast = document.createElement('div');
+    saveToast.className = 'fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded-md shadow-lg transition-opacity duration-300 opacity-0 pointer-events-none z-50';
+    saveToast.textContent = 'Alterações salvas!';
+    document.body.appendChild(saveToast);
+
+    function showToast(message = 'Alterações salvas!') {
+        saveToast.textContent = message;
+        saveToast.classList.remove('opacity-0');
+        setTimeout(() => saveToast.classList.add('opacity-0'), 2500);
+    }
+
+    // Função que faz o envio do formulário via Fetch API (AJAX)
+    const autoSaveForm = (formElement) => {
+        const formData = new FormData(formElement);
+
+        if (formData.has('telefone')) {
+            const tel = formData.get('telefone');
+            formData.set('telefone', tel.replace(/\D/g, ''));
+        }
+        
+        fetch(formElement.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                showToast();
+            }
+        })
+        .catch(error => console.error('Erro no auto-save:', error));
+    };
+
+    // Pega todos os forms da página que possuem o atributo data-autosave e adiciona os eventos nos inputs
+    const forms = document.querySelectorAll('form[data-autosave="true"]');
+    forms.forEach(form => {
+        // Pega todos inputs, textareas e selects dentro do form
+        const inputs = form.querySelectorAll('input, textarea, select');
+        
+        inputs.forEach(input => {
+            // Se for arquivo ou checkbox/radio, salva no momento que muda
+            if (input.type === 'file' || input.type === 'checkbox' || input.type === 'radio') {
+                input.addEventListener('change', () => autoSaveForm(form));
+            } else {
+                // Se for campo de texto normal, salva quando perde o foco (blur)
+                input.addEventListener('blur', () => autoSaveForm(form));
+            }
+        });
+    });
+
 });
