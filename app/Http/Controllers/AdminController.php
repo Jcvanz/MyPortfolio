@@ -116,4 +116,18 @@ class AdminController extends Controller
         Project::findOrFail($id)->delete();
         return redirect()->route('admin')->with('success', 'Projeto removido com sucesso!');
     }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+        $user->update([
+            'password' => bcrypt($request->password)
+        ]);
+
+        return redirect()->route('admin')->with('success', 'Senha alterada com sucesso!');
+    }
 }

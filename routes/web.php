@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function() {
     
     Route::delete('/admin/project/{id}', 
         [AdminController::class, 'destroyProject'])->name('admin.project.destroy');
+
+    Route::post('/admin/password', 
+        [AdminController::class, 'updatePassword'])->name('admin.password.update');
 });
 
 // Rotas do portifolio

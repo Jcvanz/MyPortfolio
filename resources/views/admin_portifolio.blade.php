@@ -317,6 +317,37 @@
                     @endforeach
                 </div>
             </div>
+        <!-- Segurança -->
+        <div class="flex flex-col gap-4 mb-12">
+            <h2 class="text-base md:text-lg font-semibold text-zinc-400">Segurança</h2>
+            <div class="p-4 md:p-10 bg-zinc-800 rounded-xl">
+                <form action="{{ route('admin.password.update') }}" method="POST" class="grid grid-cols-4 gap-4">
+                    @csrf
+                    @include('components_adm.input',[
+                        'divClass' =>"col-span-4 md:col-span-2",
+                        'labelClass' =>"max-md:text-sm text-zinc-400",
+                        'inputClass' =>"max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500",
+                        'label' =>"Nova Senha",
+                        'name' =>"password",
+                        'id' =>"password",
+                        'type' =>"password",
+                        'value' => ""
+                    ])
+                    @include('components_adm.input',[
+                        'divClass' =>"col-span-4 md:col-span-2",
+                        'labelClass' =>"max-md:text-sm text-zinc-400",
+                        'inputClass' =>"max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500",
+                        'label' =>"Confirmar Nova Senha",
+                        'name' =>"password_confirmation",
+                        'id' =>"password_confirmation",
+                        'type' =>"password",
+                        'value' => ""
+                    ])
+                    <div class="col-span-4 flex justify-end">
+                        <button type="submit" class="px-8 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-md font-semibold transition shadow-lg shadow-red-900/20">Alterar Senha</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
