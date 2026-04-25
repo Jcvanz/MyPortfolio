@@ -48,18 +48,6 @@ O front-end foi construído visando uma estética **premium e futurista**, utili
 
 ---
 
-## 📸 Screenshots (Preview)
-
-<div align="center">
-  <p align="center"><strong>Home - Hero Section</strong></p>
-  <video src="https://github.com/Jcvanz/Portifolio/issues/1#issue-4329092876" width="800" height="600" autoplay loop muted>
-  
-  <p align="center"><strong>Admin Dashboard</strong></p>
-  <video src="./public/assets/screenshots/admin.mp4" width="800" height="600" muted> 
-</div>
-
----
-
 ## 🚀 Como Executar
 
 1. Clone o repositório
