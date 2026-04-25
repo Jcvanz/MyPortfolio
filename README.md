@@ -8,6 +8,11 @@
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  
+  <br><br>
+  <a href="https://portifolio-julio-cesar.up.railway.app/" target="_blank">
+    <img src="https://img.shields.io/badge/LIVE_DEMO-🚀-brightgreen?style=for-the-badge&logo=rocket" />
+  </a>
 </div>
 
 ---
@@ -45,6 +50,17 @@ O front-end foi construído visando uma estética **premium e futurista**, utili
     - Radar Chart interativo (Chart.js) para visualização de skills.
     - Sistema de "Copy to Clipboard" com feedback visual em tempo real.
     - Marquee infinito em CSS puro para as Stacks.
+
+---
+
+## 🌐 Deployment & Hosting
+
+Este projeto está hospedado utilizando tecnologias de ponta para garantir alta disponibilidade e performance:
+
+- **Hospedagem:** [Railway](https://railway.app/)
+- **Ambiente:** Docker via Nixpacks (PHP 8.4 + Apache)
+- **Banco de Dados:** MySQL Gerenciado (Railway)
+- **SSL:** HTTPS forçado via AppServiceProvider para segurança e SEO.
 
 ---
 

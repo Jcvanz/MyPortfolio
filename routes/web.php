@@ -47,16 +47,3 @@ Route::get('/', function () {
     $projects = Project::latest()->get();
     return view('portifolio', compact('portfolio', 'coreStacks', 'projects'));
 })->name('portifolio');
-
-// ROTA TEMPORÁRIA PARA CRIAR O BANCO NO RAILWAY
-Route::get('/force-migrate', function () {
-    try {
-        Artisan::call('migrate:fresh', [
-            '--force' => true,
-            '--seed' => true,
-        ]);
-        return "Banco de dados criado e populado com sucesso!";
-    } catch (\Exception $e) {
-        return "Erro ao migrar: " . $e->getMessage();
-    }
-});
