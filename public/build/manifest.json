@@ -8,6 +8,12 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/js/admin.js": {
+    "file": "assets/admin-DU4UUM6l.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true
+  },
   "resources/js/app.js": {
     "file": "assets/app-DQ39gIL7.js",
     "name": "app",
