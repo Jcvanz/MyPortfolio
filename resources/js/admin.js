@@ -43,13 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Alternar visibilidade da senha
-    const passwordToggles = document.querySelectorAll('.password-toggle');
-    passwordToggles.forEach(toggle => {
-        toggle.addEventListener('click', function () {
-            const targetId = this.getAttribute('data-target');
+    console.log('Password toggle system initialized');
+    document.addEventListener('click', function(e) {
+        const toggle = e.target.closest('.password-toggle');
+        if (toggle) {
+            console.log('Toggle clicked');
+            const targetId = toggle.getAttribute('data-target');
             const input = document.getElementById(targetId);
-            const iconEye = this.querySelector('.icon-eye');
-            const iconEyeSlash = this.querySelector('.icon-eye-slash');
+            const iconEye = toggle.querySelector('.icon-eye');
+            const iconEyeSlash = toggle.querySelector('.icon-eye-slash');
 
             if (input.type === 'password') {
                 input.type = 'text';
@@ -60,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconEye.classList.remove('hidden');
                 iconEyeSlash.classList.add('hidden');
             }
-        });
+        }
     });
 
     // AUTO-SAVE
