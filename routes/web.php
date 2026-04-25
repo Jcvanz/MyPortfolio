@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Models\Portfolio;
+use App\Models\CoreStack;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 // Rotas de Login
@@ -22,4 +25,25 @@ Route::middleware('auth')->group(function() {
     
     Route::post('/admin/update', 
         [AdminController::class, 'update'])->name('admin.update');
+
+    Route::post('/admin/core-stack', 
+        [AdminController::class, 'storeCoreStack'])->name('admin.core-stack.store');
+    
+    Route::delete('/admin/core-stack/{id}', 
+        [AdminController::class, 'destroyCoreStack'])->name('admin.core-stack.destroy');
+
+    Route::post('/admin/project', 
+        [AdminController::class, 'storeProject'])->name('admin.project.store');
+    
+    Route::delete('/admin/project/{id}', 
+        [AdminController::class, 'destroyProject'])->name('admin.project.destroy');
 });
+
+// Rotas do portifolio
+Route::get('/', function () {
+    $portfolio = Portfolio::first();
+    $coreStacks = CoreStack::all();
+    $projects = Project::latest()->get();
+    
+    return view('portifolio', compact('portfolio', 'coreStacks', 'projects'));
+})->name('portifolio');
