@@ -20,7 +20,7 @@ Este não é apenas um portfólio estático. É uma aplicação fullstack robust
 
 ## 🛠️ Arquitetura e Back-end
 
-O coração do projeto bate com **Laravel 11**, focado em performance e organização de código.
+O coração do projeto bate com **Laravel 13**, focado em performance e organização de código.
 
 ### 🗄️ Banco de Dados & Persistência
 - **MySQL Integration:** Estrutura de dados relacional para alta integridade.
@@ -52,12 +52,10 @@ O front-end foi construído visando uma estética **premium e futurista**, utili
 
 <div align="center">
   <p align="center"><strong>Home - Hero Section</strong></p>
-  <!-- Espaço reservado para imagem -->
-  <img src="https://via.placeholder.com/1280x720/0f172a/22d3ee?text=Home+Hero+Preview" width="800" />
+  <video src="./public/assets/screenshots/home.mp4" width="800" height="600" autoplay loop muted>
   
   <p align="center"><strong>Admin Dashboard</strong></p>
-  <!-- Espaço reservado para imagem -->
-  <img src="https://via.placeholder.com/1280x720/18181b/ffffff?text=Admin+Panel+Preview" width="800" />
+  <video src="./public/assets/screenshots/admin.mp4" width="800" height="600" muted> 
 </div>
 
 ---
@@ -86,7 +84,7 @@ O front-end foi construído visando uma estética **premium e futurista**, utili
 <div align="center">
   <p>Desenvolvido por <strong>Julio Cesar Vanz</strong></p>
   <p>
-    <a href="https://linkedin.com/in/Jcvanz">
+    <a href="https://www.linkedin.com/in/juliocesarvanz/">
       <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
     </a>
   </p>
