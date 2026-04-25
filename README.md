@@ -64,27 +64,6 @@ Este projeto está hospedado utilizando tecnologias de ponta para garantir alta 
 
 ---
 
-## 🚀 Como Executar
-
-1. Clone o repositório
-2. Instale as dependências:
-   ```bash
-   composer install
-   npm install
-   ```
-3. Configure o `.env` com suas credenciais MySQL.
-4. Execute as migrações:
-   ```bash
-   php artisan migrate --seed
-   ```
-5. Inicie os servidores:
-   ```bash
-   php artisan serve
-   npm run dev
-   ```
-
----
-
 <div align="center">
   <p>Desenvolvido por <strong>Julio Cesar Vanz</strong></p>
   <p>
