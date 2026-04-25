@@ -18,16 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Formatador de input de telefone
     const phoneInput = document.getElementById('telefone');
-    
-    phoneInput.addEventListener('input', function() {
+
+    phoneInput.addEventListener('input', function () {
         let value = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
         let formattedValue = '';
 
         if (value.length >= 11) {
             // Formato final: (00)00000-0000
-            formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{4})/,'($1) $2-$3');
+            formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
         } else {
-            formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{0,4})/,'($1) $2-$3');
+            formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{0,4})/, '($1) $2-$3');
         }
         this.value = formattedValue;
     });
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Alternar visibilidade da senha
     const passwordToggles = document.querySelectorAll('.password-toggle');
     passwordToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
+        toggle.addEventListener('click', function () {
             const targetId = this.getAttribute('data-target');
             const input = document.getElementById(targetId);
             const iconEye = this.querySelector('.icon-eye');
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tel = formData.get('telefone');
             formData.set('telefone', tel.replace(/\D/g, ''));
         }
-        
+
         fetch(formElement.action, {
             method: 'POST',
             body: formData,
@@ -92,13 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                showToast();
-            }
-        })
-        .catch(error => console.error('Erro no auto-save:', error));
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast();
+                }
+            })
+            .catch(error => console.error('Erro no auto-save:', error));
     };
 
     // Pega todos os forms da página que possuem o atributo data-autosave e adiciona os eventos nos inputs
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     forms.forEach(form => {
         // Pega todos inputs, textareas e selects dentro do form
         const inputs = form.querySelectorAll('input, textarea, select');
-        
+
         inputs.forEach(input => {
             // Se for arquivo ou checkbox/radio, salva no momento que muda
             if (input.type === 'file' || input.type === 'checkbox' || input.type === 'radio') {
@@ -117,5 +117,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Adicionar tags de tecnologias no card
+    window.addTag = () => {
+        const container = document.getElementById('tags-container');
+        const div = document.createElement('div');
+        div.className = 'tag-item flex items-center gap-2 bg-zinc-800 px-3 py-1.5 rounded-lg border border-zinc-700 text-white shadow-sm';
+        div.innerHTML = `
+            <input type="text" name="system_status[]" placeholder="Ex: React" class="bg-transparent outline-none w-24 text-sm font-mono" />
+            <button type="button" onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-300 text-lg leading-none">&times;</button>
+        `;
+        container.appendChild(div);
+    }
+
+    // Remover tags de tecnologias no card
+    window.removeTag = (button) => {
+        button.parentElement.remove();
+    }
 
 });
