@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Portfolio;
+use App\Models\CoreStack;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,17 +21,18 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        \App\Models\Portfolio::create([
+        Portfolio::create([
             'name' => 'Julio Cesar Vanz',
-            'bio' => 'Desenvolvedor Fullstack',
+            'profissao' => 'Desenvolvedor Fullstack',
+            'resumo' => 'Desenvolvedor apaixonado por tecnologia...',
             'email' => 'julio@example.com',
             'github' => 'https://github.com/Jcvanz',
             'linkedin' => 'https://linkedin.com/in/juliocesarvanz',
-            'city' => 'Blumenau',
-            'state' => 'SC'
+            'cidade' => 'Blumenau',
+            'estado' => 'SC'
         ]);
 
-        \App\Models\CoreStack::create([
+        CoreStack::create([
             'name' => 'Laravel',
             'icon' => 'https://raw.githubusercontent.com/devicons/devicon/master/icons/laravel/laravel-original.svg'
         ]);
