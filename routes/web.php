@@ -6,6 +6,7 @@ use App\Models\Portfolio;
 use App\Models\CoreStack;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 // Rotas de Login
 Route::get('/login', 
@@ -41,16 +42,16 @@ Route::middleware('auth')->group(function() {
 
 // Rotas do portifolio
 Route::get('/', function () {
-    $portfolio = \App\Models\Portfolio::first();
-    $coreStacks = \App\Models\CoreStack::all();
-    $projects = \App\Models\Project::latest()->get();
+    $portfolio = Portfolio::first();
+    $coreStacks = CoreStack::all();
+    $projects = Project::latest()->get();
     return view('portifolio', compact('portfolio', 'coreStacks', 'projects'));
 })->name('portifolio');
 
 // ROTA TEMPORÁRIA PARA CRIAR O BANCO NO RAILWAY
 Route::get('/force-migrate', function () {
     try {
-        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
+        Artisan::call('migrate:fresh', [
             '--force' => true,
             '--seed' => true,
         ]);
