@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
   
   <br><br>
-  <a href="https://portifolio-julio-cesar.up.railway.app/" target="_blank">
+  <a href="https://portfolio-julio-cesar.up.railway.app/" target="_blank">
     <img src="https://img.shields.io/badge/LIVE_DEMO-🚀-brightgreen?style=for-the-badge&logo=rocket" />
   </a>
 </div>
