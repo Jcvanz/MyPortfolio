@@ -47,55 +47,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 animateValue("gh-stars", 0, totalStars, 1500);
 
-                // Processar Top Language e Progress Bars
-                if(Object.keys(languages).length > 0) {
-                    // Converte em array, calcula % e ordena
-                    let langArray = Object.keys(languages).map(lang => ({
-                        name: lang,
-                        count: languages[lang],
-                        percent: (languages[lang] / totalReposWithLang) * 100
-                    })).sort((a, b) => b.count - a.count);
-
-                    // Atualizar "Top Linguagem" Card
-                    const topLang = langArray[0].name;
+                // Top Language Card (Simplificado: apenas pega a linguagem do repo mais recente ou principal)
+                const mainLangs = repos.filter(r => r.language).map(r => r.language);
+                if(mainLangs.length > 0) {
+                    const topLang = [...new Set(mainLangs)].sort((a,b) => 
+                        mainLangs.filter(v => v===b).length - mainLangs.filter(v => v===a).length
+                    )[0];
+                    
                     const langElement = document.getElementById("gh-language");
-                    langElement.style.opacity = 0;
-                    setTimeout(() => {
-                        langElement.innerText = topLang;
-                        langElement.style.transition = 'opacity 0.5s';
-                        langElement.style.opacity = 1;
-                    }, 500);
-
-                    // Renderizar Progress Bars de Linguagens (Top 5)
-                    const langsContainer = document.getElementById('gh-langs-container');
-                    let html = '';
-                    const colors = ['bg-cyan-400', 'bg-blue-500', 'bg-green-400', 'bg-yellow-400', 'bg-purple-500'];
-                    
-                    langArray.slice(0, 5).forEach((lang, index) => {
-                        const color = colors[index % colors.length];
-                        html += `
-                            <div class="group/bar">
-                                <div class="flex justify-between text-xs font-mono text-gray-400 mb-1.5 transition-colors group-hover/bar:text-white">
-                                    <span>${lang.name}</span>
-                                    <span class="text-${color.split('-')[1]}-400">${lang.percent.toFixed(1)}%</span>
-                                </div>
-                                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden shadow-inner">
-                                    <div class="h-full ${color} rounded-full relative shadow-[0_0_10px_currentColor]" style="width: 0%; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.2}s" data-width="${lang.percent}%">
-                                        <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    langsContainer.innerHTML = html;
-
-                    // Acionar animação de crescimento das barras
-                    setTimeout(() => {
-                        langsContainer.querySelectorAll('[data-width]').forEach(el => {
-                            el.style.width = el.getAttribute('data-width');
-                        });
-                    }, 100);
+                    if (langElement) {
+                        langElement.style.opacity = 0;
+                        setTimeout(() => {
+                            langElement.innerText = topLang;
+                            langElement.style.transition = 'opacity 0.5s';
+                            langElement.style.opacity = 1;
+                        }, 500);
+                    }
                 }
             }
         })

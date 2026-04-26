@@ -40,24 +40,10 @@
     <!-- Detalhamento Avançado: Barras de Linguagem + Stats Card -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         
-        <!-- Progress Bars de Linguagens -->
-        <div class="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 backdrop-blur-sm overflow-hidden">
+        <!-- Top Languages Card (Oficial do GitHub) -->
+        <div class="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 backdrop-blur-sm overflow-hidden flex flex-col items-center justify-center">
             <div class="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/5 transition-colors duration-500 rounded-2xl pointer-events-none"></div>
-            <div class="font-mono text-sm uppercase tracking-widest mb-6 text-cyan-400 flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                Linguagens por Repositório
-            </div>
-            
-            <div id="gh-langs-container" class="space-y-4">
-                <!-- Skeleton Loading -->
-                <div class="animate-pulse flex space-x-4">
-                    <div class="flex-1 space-y-4 py-1">
-                        <div class="h-2 bg-white/10 rounded w-3/4"></div>
-                        <div class="h-2 bg-white/10 rounded w-full"></div>
-                        <div class="h-2 bg-white/10 rounded w-5/6"></div>
-                    </div>
-                </div>
-            </div>
+            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Jcvanz&layout=compact&theme=vision-friendly-dark&hide_border=true&bg_color=00000000&text_color=9ca3af&title_color=22d3ee&icon_color=22d3ee&langs_count=6" alt="Top Languages" class="w-full drop-shadow-[0_0_15px_rgba(34,211,238,0.1)] transition-transform duration-500 group-hover:scale-105">
         </div>
 
         <!-- GitHub Readme Stats Card (Geral) -->
