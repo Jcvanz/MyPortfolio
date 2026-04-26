@@ -1,3 +1,44 @@
+// FUNÇÕES GLOBAIS (Devem estar fora do DOMContentLoaded para o Vite não isolar o escopo)
+window.openEditProjectModal = function(project) {
+    const modal = document.getElementById('editProjectModal');
+    const form = document.getElementById('editProjectForm');
+    
+    // Configura a URL da action do form
+    form.action = `/admin/project/${project.id}`;
+    
+    // Preenche os campos
+    document.getElementById('edit_title').value = project.title;
+    document.getElementById('edit_description').value = project.description;
+    document.getElementById('edit_link').value = project.link || '';
+    document.getElementById('edit_tags').value = Array.isArray(project.tags) ? project.tags.join(', ') : '';
+    
+    // Preview da imagem
+    const preview = document.getElementById('edit_image_preview');
+    if (project.image) {
+        preview.innerHTML = `<img src="${project.image}" class="w-full h-full object-cover">`;
+    } else {
+        preview.innerHTML = 'Sem imagem';
+    }
+
+    // Mostra o modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+window.closeEditProjectModal = function() {
+    const modal = document.getElementById('editProjectModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+// Fecha o modal se clicar fora dele
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('editProjectModal');
+    if (event.target == modal) {
+        window.closeEditProjectModal();
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Inputs de Arquivos
@@ -18,19 +59,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Formatador de input de telefone
     const phoneInput = document.getElementById('telefone');
+    if(phoneInput) {
+        phoneInput.addEventListener('input', function () {
+            let value = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            let formattedValue = '';
 
-    phoneInput.addEventListener('input', function () {
-        let value = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-        let formattedValue = '';
-
-        if (value.length >= 11) {
-            // Formato final: (00)00000-0000
-            formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
-        } else {
-            formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{0,4})/, '($1) $2-$3');
-        }
-        this.value = formattedValue;
-    });
+            if (value.length >= 11) {
+                // Formato final: (00)00000-0000
+                formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
+            } else {
+                formattedValue = value.replace(/(\d{2})(\d{4,5})(\d{0,4})/, '($1) $2-$3');
+            }
+            this.value = formattedValue;
+        });
+    }
 
     // Contagem de caracteres em Inputs Área de Texto
     const inputArea = document.querySelectorAll('.input_area');
@@ -120,9 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Adicionar tags de tecnologias no card
+    // Funções de Tags (também globais se necessário no futuro)
     window.addTag = () => {
         const container = document.getElementById('tags-container');
+        if(!container) return;
         const div = document.createElement('div');
         div.className = 'tag-item flex items-center gap-2 bg-zinc-800 px-3 py-1.5 rounded-lg border border-zinc-700 text-white shadow-sm';
         div.innerHTML = `
@@ -132,51 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(div);
     }
 
-    // Remover tags de tecnologias no card
     window.removeTag = (button) => {
         button.parentElement.remove();
-    }
-
-    // Função para abrir modal de edição
-    window.openEditProjectModal = function(project) {
-        const modal = document.getElementById('editProjectModal');
-        const form = document.getElementById('editProjectForm');
-        
-        // Configura a URL da action do form
-        form.action = `/admin/project/${project.id}`;
-        
-        // Preenche os campos
-        document.getElementById('edit_title').value = project.title;
-        document.getElementById('edit_description').value = project.description;
-        document.getElementById('edit_link').value = project.link || '';
-        document.getElementById('edit_tags').value = Array.isArray(project.tags) ? project.tags.join(', ') : '';
-        
-        // Preview da imagem
-        const preview = document.getElementById('edit_image_preview');
-        if (project.image) {
-            preview.innerHTML = `<img src="${project.image}" class="w-full h-full object-cover">`;
-        } else {
-            preview.innerHTML = 'Sem imagem';
-        }
-
-        // Mostra o modal
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    // Função para fechar modal de edição
-    window.closeEditProjectModal = function() {
-        const modal = document.getElementById('editProjectModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-
-    // Fecha o modal se clicar fora dele
-    window.onclick = function(event) {
-        const modal = document.getElementById('editProjectModal');
-        if (event.target == modal) {
-            closeEditProjectModal();
-        }
     }
 
 });
