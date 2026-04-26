@@ -293,13 +293,18 @@
                             @else
                                 <div class="w-full h-full flex items-center justify-center text-zinc-600 italic text-sm">Sem imagem</div>
                             @endif
-                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                <button type="button" 
+                                    onclick="openEditProjectModal({{ json_encode($project) }})"
+                                    class="bg-cyan-500 hover:bg-cyan-600 text-white p-2 rounded-lg transition" 
+                                    title="Editar Projeto">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                </button>
                                 <form action="{{ route('admin.project.destroy', $project->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition" onclick="return confirm('Excluir projeto?')">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                        Remover
+                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition" onclick="return confirm('Excluir projeto?')" title="Remover Projeto">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                 </form>
                             </div>
@@ -352,3 +357,103 @@
     </div>
 
 @endsection
+
+<!-- MODAL DE EDIÇÃO DE PROJETO -->
+<div id="editProjectModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div class="p-6 border-b border-zinc-800 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-white">Editar Projeto</h3>
+            <button onclick="closeEditProjectModal()" class="text-zinc-500 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <form id="editProjectForm" action="" method="POST" enctype="multipart/form-data" class="p-6">
+            @csrf
+            @method('PUT')
+            
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Título</label>
+                    <input type="text" name="title" id="edit_title" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Tags (Sugerido: Separar por vírgula)</label>
+                    <input type="text" name="tags" id="edit_tags" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="text-sm text-zinc-400 block mb-1">Descrição</label>
+                <textarea name="description" id="edit_description" rows="4" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none resize-none"></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="text-sm text-zinc-400 block mb-1">Link do Projeto</label>
+                <input type="text" name="link" id="edit_link" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+            </div>
+
+            <div class="mb-6 flex flex-col gap-3">
+                <label class="text-sm text-zinc-400 block mb-1">Capa do Projeto</label>
+                <div class="flex items-center gap-4">
+                    <div id="edit_image_preview" class="w-24 h-16 bg-zinc-800 rounded border border-zinc-700 overflow-hidden flex items-center justify-center text-[10px] text-zinc-600 italic">
+                        Sem imagem
+                    </div>
+                    <div class="flex flex-col gap-2 flex-1">
+                        <input type="file" name="image" class="text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-zinc-800 file:text-zinc-300 hover:file:bg-zinc-700">
+                        <label class="flex items-center gap-2 text-xs text-red-400 cursor-pointer">
+                            <input type="checkbox" name="remove_image" value="1" class="rounded border-zinc-700 bg-zinc-800">
+                            Remover imagem atual
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t border-zinc-800">
+                <button type="button" onclick="closeEditProjectModal()" class="px-6 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition">Cancelar</button>
+                <button type="submit" class="px-8 py-2 bg-cyan-600 text-white rounded-lg font-bold hover:bg-cyan-500 transition shadow-lg shadow-cyan-900/20">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openEditProjectModal(project) {
+        const modal = document.getElementById('editProjectModal');
+        const form = document.getElementById('editProjectForm');
+        
+        // Configura a URL da action do form
+        form.action = `/admin/project/${project.id}`;
+        
+        // Preenche os campos
+        document.getElementById('edit_title').value = project.title;
+        document.getElementById('edit_description').value = project.description;
+        document.getElementById('edit_link').value = project.link || '';
+        document.getElementById('edit_tags').value = Array.isArray(project.tags) ? project.tags.join(', ') : '';
+        
+        // Preview da imagem
+        const preview = document.getElementById('edit_image_preview');
+        if (project.image) {
+            preview.innerHTML = `<img src="${project.image}" class="w-full h-full object-cover">`;
+        } else {
+            preview.innerHTML = 'Sem imagem';
+        }
+
+        // Mostra o modal
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeEditProjectModal() {
+        const modal = document.getElementById('editProjectModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // Fecha o modal se clicar fora dele
+    window.onclick = function(event) {
+        const modal = document.getElementById('editProjectModal');
+        if (event.target == modal) {
+            closeEditProjectModal();
+        }
+    }
+</script>

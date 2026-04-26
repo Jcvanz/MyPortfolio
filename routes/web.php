@@ -36,6 +36,9 @@ Route::middleware('auth')->group(function() {
     Route::post('/admin/project', 
         [AdminController::class, 'storeProject'])->name('admin.project.store');
     
+    Route::put('/admin/project/{id}', 
+        [AdminController::class, 'updateProject'])->name('admin.project.update');
+
     Route::delete('/admin/project/{id}', 
         [AdminController::class, 'destroyProject'])->name('admin.project.destroy');
 

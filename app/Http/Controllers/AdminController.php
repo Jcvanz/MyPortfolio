@@ -111,6 +111,39 @@ class AdminController extends Controller
         return redirect()->route('admin')->with('success', 'Projeto adicionado com sucesso!');
     }
 
+    public function updateProject(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|max:2048',
+            'tags' => 'nullable|string',
+            'link' => 'nullable|string',
+        ]);
+
+        $data = $request->only(['title', 'description', 'link']);
+
+        if ($request->tags) {
+            $data['tags'] = array_map('trim', explode(',', $request->tags));
+        }
+
+        if ($request->has('remove_image')) {
+            $data['image'] = null;
+        }
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $base64 = base64_encode(file_get_contents($file->getRealPath()));
+            $data['image'] = 'data:' . $file->getMimeType() . ';base64,' . $base64;
+        }
+
+        $project->update($data);
+
+        return redirect()->route('admin')->with('success', 'Projeto atualizado com sucesso!');
+    }
+
     public function destroyProject($id)
     {
         Project::findOrFail($id)->delete();
