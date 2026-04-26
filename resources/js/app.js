@@ -154,4 +154,55 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailBtn.getAttribute('data-email');
         emailBtn.addEventListener('click', () => copyToClipboard(email, emailBtn));
     }
+
+    // Toggle de descrição em cards de projeto
+    window.toggleDescription = function(btn, targetId) {
+        const p = document.getElementById(targetId);
+        const isClamped = p.classList.contains('line-clamp-4');
+        const card = btn.closest('.group');
+        const svg = btn.querySelector('svg');
+        
+        if (isClamped) {
+            // Expandir
+            p.classList.remove('line-clamp-4');
+            btn.querySelector('span').innerText = 'Ler menos';
+            card.classList.remove('h-80');
+            // Para mobile, não queremos altura fixa, apenas remover o clamp
+            if (window.innerWidth <= 768) {
+                p.classList.remove('max-h-[5.5rem]'); // Remove a restrição do Tailwind para mobile
+            } else {
+                card.classList.add('h-auto', 'min-h-[20rem]', 'pb-10');
+            }
+            svg.classList.add('rotate-180');
+        } else {
+            // Recolher
+            p.classList.add('line-clamp-4');
+            btn.querySelector('span').innerText = 'Ler mais';
+            card.classList.add('h-80');
+            card.classList.remove('h-auto', 'min-h-[20rem]', 'pb-10');
+            svg.classList.remove('rotate-180');
+        }
+    };
+
+    // Lógica de Flip para Projetos (Interativo)
+    const projectCards = document.querySelectorAll('.flip-card');
+
+    projectCards.forEach(card => {
+        const back = card.querySelector('.flip-card-back');
+        
+        // Evento de Clique para Flip
+        card.addEventListener('click', (e) => {
+            // Evita que o clique conte como clique no link interno se estiverem sobrepostos
+            if (!e.target.closest('a')) {
+                card.classList.toggle('is-flipped');
+            }
+        });
+
+        // Evento para fechar ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (!card.contains(e.target) && card.classList.contains('is-flipped')) {
+                card.classList.remove('is-flipped');
+            }
+        });
+    });
 });

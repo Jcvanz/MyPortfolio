@@ -55,31 +55,6 @@
         </a>
     </div>
 
-    <script>
-        if (typeof toggleDescription === 'undefined') {
-            window.toggleDescription = function(btn, targetId) {
-                const p = document.getElementById(targetId);
-                const isClamped = p.classList.contains('line-clamp-4');
-                const card = btn.closest('.group');
-                const svg = btn.querySelector('svg');
-                
-                if (isClamped) {
-                    p.classList.remove('line-clamp-4');
-                    btn.querySelector('span').innerText = 'Ler menos';
-                    card.classList.remove('h-80');
-                    card.classList.add('h-auto', 'min-h-[20rem]', 'pb-10');
-                    svg.classList.add('rotate-180');
-                } else {
-                    p.classList.add('line-clamp-4');
-                    btn.querySelector('span').innerText = 'Ler mais';
-                    card.classList.add('h-80');
-                    card.classList.remove('h-auto', 'min-h-[20rem]', 'pb-10');
-                    svg.classList.remove('rotate-180');
-                }
-            };
-        }
-    </script>
-
     <!-- Decorações Futuristas nos cantos (Crosshairs) -->
     <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-cyan-500/0 group-hover:border-cyan-400/80 transition-all duration-500 m-4 rounded-tl pointer-events-none"></div>
     <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-blue-500/0 group-hover:border-blue-400/80 transition-all duration-500 m-4 rounded-br pointer-events-none"></div>
