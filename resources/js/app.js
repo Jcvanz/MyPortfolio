@@ -1,38 +1,53 @@
-// Toggle de descrição em cards de projeto (Global para ser visto pelo onclick do Blade)
+// Toggle de descrição em cards de projeto (Global com efeito Slide)
 window.toggleDescription = function(btn, targetId) {
     const p = document.getElementById(targetId);
     const isClamped = p.classList.contains('line-clamp-4');
     const card = btn.closest('.group');
-    const contentContainer = btn.closest('.z-20'); // O contêiner do texto revelado
+    const contentContainer = btn.closest('.z-20');
     const svg = btn.querySelector('svg');
     
+    // Adiciona transição suave de altura se ainda não tiver
+    card.style.transition = 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s';
+
     if (isClamped) {
-        // Expandir
-        p.classList.remove('line-clamp-4');
-        btn.querySelector('span').innerText = 'Ler menos';
+        // --- ABRIR (SLIDE DOWN) ---
         
-        // Ajusta o card para expandir
-        card.classList.remove('h-80');
-        card.classList.add('h-auto', 'min-h-[20rem]', 'pb-6');
-        
-        // Muda o contêiner de absoluto para relativo para ele empurrar o card
+        // 1. Prepara o terreno (muda para relativo para calcular o tamanho real)
         contentContainer.classList.remove('absolute', 'inset-0');
-        contentContainer.classList.add('relative', 'pt-24', 'z-30'); 
+        contentContainer.classList.add('relative', 'pt-24', 'z-30');
+        p.classList.remove('line-clamp-4');
         
+        // 2. Calcula a altura que o card PRECISA ter agora que o texto está livre
+        const targetHeight = card.scrollHeight;
+        
+        // 3. Reseta para a altura atual (80 / 20rem = 320px) para começar a animação
+        card.style.height = '320px';
+        
+        // 4. Força o navegador a processar a mudança antes de aplicar a nova altura
+        card.offsetHeight; 
+        
+        // 5. Aplica a nova altura calculada
+        card.style.height = targetHeight + 'px';
+        
+        btn.querySelector('span').innerText = 'Ler menos';
         svg.classList.add('rotate-180');
     } else {
-        // Recolher
-        p.classList.add('line-clamp-4');
+        // --- FECHAR (SLIDE UP) ---
+        
+        // 1. Volta para a altura padrão de 320px (h-80)
+        card.style.height = '320px';
+        
+        // 2. Espera a animação terminar (500ms) para voltar as classes de posicionamento
+        setTimeout(() => {
+            if (!p.classList.contains('line-clamp-4')) { // Verifica se ainda está fechando
+                p.classList.add('line-clamp-4');
+                contentContainer.classList.add('absolute', 'inset-0');
+                contentContainer.classList.remove('relative', 'pt-24', 'z-30');
+                card.style.height = ''; // Limpa o style inline
+            }
+        }, 500);
+
         btn.querySelector('span').innerText = 'Ler mais';
-        
-        // Volta o card ao normal
-        card.classList.add('h-80');
-        card.classList.remove('h-auto', 'min-h-[20rem]', 'pb-6');
-        
-        // Volta o contêiner para absoluto
-        contentContainer.classList.add('absolute', 'inset-0');
-        contentContainer.classList.remove('relative', 'pt-24', 'z-30');
-        
         svg.classList.remove('rotate-180');
     }
 };
