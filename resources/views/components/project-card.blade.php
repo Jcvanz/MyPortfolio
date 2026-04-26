@@ -24,11 +24,22 @@
     </div>
 
     <!-- Conteúdo Revelado (Oculto por padrão, desliza para cima no hover) -->
-    <div class="absolute inset-0 p-6 flex flex-col justify-center translate-y-8 group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
+    <div class="absolute inset-0 p-6 flex flex-col justify-center translate-y-8 group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100 z-20">
         <h4 class="text-2xl font-bold text-cyan-400 mb-2 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]">{{ $title }}</h4>
-        <p class="text-gray-300 text-sm line-clamp-4 mb-5 leading-relaxed">
-            {{ $description }}
-        </p>
+        
+        <div class="relative mb-4">
+            <p id="desc-{{ Str::slug($title) }}" class="text-gray-300 text-sm line-clamp-4 leading-relaxed transition-all duration-300">
+                {{ $description }}
+            </p>
+            @if(strlen($description) > 120)
+                <button type="button" 
+                    onclick="toggleDescription(this, 'desc-{{ Str::slug($title) }}')"
+                    class="text-cyan-400 text-xs font-bold mt-1 hover:text-cyan-300 transition-colors cursor-pointer flex items-center gap-1">
+                    <span>Ler mais</span>
+                    <svg class="w-3 h-3 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+            @endif
+        </div>
         
         <div class="flex flex-wrap gap-2 mb-6">
             @foreach($tags as $tag)
@@ -43,6 +54,31 @@
             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </a>
     </div>
+
+    <script>
+        if (typeof toggleDescription === 'undefined') {
+            window.toggleDescription = function(btn, targetId) {
+                const p = document.getElementById(targetId);
+                const isClamped = p.classList.contains('line-clamp-4');
+                const card = btn.closest('.group');
+                const svg = btn.querySelector('svg');
+                
+                if (isClamped) {
+                    p.classList.remove('line-clamp-4');
+                    btn.querySelector('span').innerText = 'Ler menos';
+                    card.classList.remove('h-80');
+                    card.classList.add('h-auto', 'min-h-[20rem]', 'pb-10');
+                    svg.classList.add('rotate-180');
+                } else {
+                    p.classList.add('line-clamp-4');
+                    btn.querySelector('span').innerText = 'Ler mais';
+                    card.classList.add('h-80');
+                    card.classList.remove('h-auto', 'min-h-[20rem]', 'pb-10');
+                    svg.classList.remove('rotate-180');
+                }
+            };
+        }
+    </script>
 
     <!-- Decorações Futuristas nos cantos (Crosshairs) -->
     <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-cyan-500/0 group-hover:border-cyan-400/80 transition-all duration-500 m-4 rounded-tl pointer-events-none"></div>
