@@ -1,3 +1,42 @@
+// Toggle de descrição em cards de projeto (Global para ser visto pelo onclick do Blade)
+window.toggleDescription = function(btn, targetId) {
+    const p = document.getElementById(targetId);
+    const isClamped = p.classList.contains('line-clamp-4');
+    const card = btn.closest('.group');
+    const contentContainer = btn.closest('.z-20'); // O contêiner do texto revelado
+    const svg = btn.querySelector('svg');
+    
+    if (isClamped) {
+        // Expandir
+        p.classList.remove('line-clamp-4');
+        btn.querySelector('span').innerText = 'Ler menos';
+        
+        // Ajusta o card para expandir
+        card.classList.remove('h-80');
+        card.classList.add('h-auto', 'min-h-[20rem]', 'pb-6');
+        
+        // Muda o contêiner de absoluto para relativo para ele empurrar o card
+        contentContainer.classList.remove('absolute', 'inset-0');
+        contentContainer.classList.add('relative', 'pt-24', 'z-30'); 
+        
+        svg.classList.add('rotate-180');
+    } else {
+        // Recolher
+        p.classList.add('line-clamp-4');
+        btn.querySelector('span').innerText = 'Ler mais';
+        
+        // Volta o card ao normal
+        card.classList.add('h-80');
+        card.classList.remove('h-auto', 'min-h-[20rem]', 'pb-6');
+        
+        // Volta o contêiner para absoluto
+        contentContainer.classList.add('absolute', 'inset-0');
+        contentContainer.classList.remove('relative', 'pt-24', 'z-30');
+        
+        svg.classList.remove('rotate-180');
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // Header scroll
@@ -154,35 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailBtn.getAttribute('data-email');
         emailBtn.addEventListener('click', () => copyToClipboard(email, emailBtn));
     }
-
-    // Toggle de descrição em cards de projeto
-    window.toggleDescription = function(btn, targetId) {
-        const p = document.getElementById(targetId);
-        const isClamped = p.classList.contains('line-clamp-4');
-        const card = btn.closest('.group');
-        const svg = btn.querySelector('svg');
-        
-        if (isClamped) {
-            // Expandir
-            p.classList.remove('line-clamp-4');
-            btn.querySelector('span').innerText = 'Ler menos';
-            card.classList.remove('h-80');
-            // Para mobile, não queremos altura fixa, apenas remover o clamp
-            if (window.innerWidth <= 768) {
-                p.classList.remove('max-h-[5.5rem]'); // Remove a restrição do Tailwind para mobile
-            } else {
-                card.classList.add('h-auto', 'min-h-[20rem]', 'pb-10');
-            }
-            svg.classList.add('rotate-180');
-        } else {
-            // Recolher
-            p.classList.add('line-clamp-4');
-            btn.querySelector('span').innerText = 'Ler mais';
-            card.classList.add('h-80');
-            card.classList.remove('h-auto', 'min-h-[20rem]', 'pb-10');
-            svg.classList.remove('rotate-180');
-        }
-    };
 
     // Lógica de Flip para Projetos (Interativo)
     const projectCards = document.querySelectorAll('.flip-card');
