@@ -10,29 +10,27 @@ window.toggleDescription = function(btn, targetId) {
     card.style.transition = 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s';
 
     if (isClamped) {
-        // --- ABRIR (SLIDE DOWN) ---
         
-        // 1. Prepara o terreno
+        // Prepara o terreno
         contentContainer.classList.remove('absolute', 'inset-0', 'justify-center');
-        contentContainer.classList.add('relative', 'justify-start', 'z-30', 'p-10'); // Removemos pt-24 e centralização
+        contentContainer.classList.add('relative', 'justify-start', 'z-30', 'p-10'); 
         p.classList.remove('line-clamp-4');
         
-        // 2. Calcula a altura
+        // Calcula a altura
         const targetHeight = card.scrollHeight;
         
-        // 3. Reseta para a altura atual
+        // Reseta para a altura atual
         card.style.height = '320px';
         
-        // 4. Force reflow
+        // Force reflow
         card.offsetHeight; 
         
-        // 5. Aplica a nova altura
+        // Aplica a nova altura
         card.style.height = targetHeight + 'px';
         
         btn.querySelector('span').innerText = 'Ler menos';
         svg.classList.add('rotate-180');
     } else {
-        // --- FECHAR (SLIDE UP) ---
         
         card.style.height = '320px';
         
@@ -72,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mobile Menu Logic
+    // Mobile Menu 
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileCloseBtn = document.getElementById('mobile-close-btn');
     const mobileMenu = document.getElementById('mobile-menu');

@@ -52,7 +52,7 @@
                     <div class="col-span-4">
                         <label for="resumo" class="max-md:text-sm text-zinc-400">Resumo</label>
                         <textarea maxlength="1000" name="resumo" id="resumo" class="max-md:text-sm input_area w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500 h-40 resize-none">{{ $portfolio->resumo }}</textarea>
-                        <p class="char_count max-md:text-xs text-[12px] text-zinc-400">{{ strlen($portfolio->resumo) }}/1000 caracteres</p>
+                        <p class="char_count max-md:text-xs text-[12px] text-zinc-400">{{ strlen($portfolio->resumo) }}/1500 caracteres</p>
                     </div>
                     <div class="col-span-4">
                         <label for="logica_juridica_texto" class="max-md:text-sm text-zinc-400">Sobre Mim (Detalhado)</label>
