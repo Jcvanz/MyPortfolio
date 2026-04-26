@@ -12,21 +12,21 @@ window.toggleDescription = function(btn, targetId) {
     if (isClamped) {
         // --- ABRIR (SLIDE DOWN) ---
         
-        // 1. Prepara o terreno (muda para relativo para calcular o tamanho real)
-        contentContainer.classList.remove('absolute', 'inset-0');
-        contentContainer.classList.add('relative', 'pt-24', 'z-30');
+        // 1. Prepara o terreno
+        contentContainer.classList.remove('absolute', 'inset-0', 'justify-center');
+        contentContainer.classList.add('relative', 'justify-start', 'z-30', 'p-10'); // Removemos pt-24 e centralização
         p.classList.remove('line-clamp-4');
         
-        // 2. Calcula a altura que o card PRECISA ter agora que o texto está livre
+        // 2. Calcula a altura
         const targetHeight = card.scrollHeight;
         
-        // 3. Reseta para a altura atual (80 / 20rem = 320px) para começar a animação
+        // 3. Reseta para a altura atual
         card.style.height = '320px';
         
-        // 4. Força o navegador a processar a mudança antes de aplicar a nova altura
+        // 4. Force reflow
         card.offsetHeight; 
         
-        // 5. Aplica a nova altura calculada
+        // 5. Aplica a nova altura
         card.style.height = targetHeight + 'px';
         
         btn.querySelector('span').innerText = 'Ler menos';
@@ -34,16 +34,14 @@ window.toggleDescription = function(btn, targetId) {
     } else {
         // --- FECHAR (SLIDE UP) ---
         
-        // 1. Volta para a altura padrão de 320px (h-80)
         card.style.height = '320px';
         
-        // 2. Espera a animação terminar (500ms) para voltar as classes de posicionamento
         setTimeout(() => {
-            if (!p.classList.contains('line-clamp-4')) { // Verifica se ainda está fechando
+            if (!p.classList.contains('line-clamp-4')) {
                 p.classList.add('line-clamp-4');
-                contentContainer.classList.add('absolute', 'inset-0');
-                contentContainer.classList.remove('relative', 'pt-24', 'z-30');
-                card.style.height = ''; // Limpa o style inline
+                contentContainer.classList.add('absolute', 'inset-0', 'justify-center');
+                contentContainer.classList.remove('relative', 'justify-start', 'z-30', 'p-10');
+                card.style.height = ''; 
             }
         }, 500);
 
