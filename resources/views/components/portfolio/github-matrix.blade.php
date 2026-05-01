@@ -61,9 +61,24 @@
         </div>
 
         <!-- GitHub Readme Stats Card (Geral) -->
-        <div class="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm overflow-hidden flex flex-col items-center justify-center">
+        <div class="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-400/50 transition-all duration-300 backdrop-blur-sm overflow-hidden flex flex-col items-center justify-center min-h-[220px]">
             <div class="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors duration-500 rounded-2xl pointer-events-none"></div>
-            <img src="https://github-readme-stats.vercel.app/api?username=Jcvanz&show_icons=true&theme=vision-friendly-dark&hide_border=true&bg_color=00000000&text_color=9ca3af&title_color=3b82f6&icon_color=22d3ee" alt="GitHub Stats" class="w-full drop-shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-transform duration-500 group-hover:scale-105">
+            
+            <!-- Fallback para quando a imagem da API falhar -->
+            <div id="gh-stats-fallback" class="hidden flex-col items-center justify-center text-center space-y-3">
+                <svg class="w-10 h-10 text-gray-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="text-sm font-mono text-gray-400">Stats indisponíveis no momento</div>
+                <div class="text-xs text-gray-500/70">A API pública de stats está sobrecarregada. Tente novamente mais tarde.</div>
+            </div>
+
+            <!-- Imagem Original -->
+            <img 
+                id="gh-stats-img"
+                src="https://github-readme-stats.vercel.app/api?username=Jcvanz&show_icons=true&theme=vision-friendly-dark&hide_border=true&bg_color=00000000&text_color=9ca3af&title_color=3b82f6&icon_color=22d3ee" 
+                alt="GitHub Stats" 
+                class="w-full drop-shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-transform duration-500 group-hover:scale-105"
+                onerror="document.getElementById('gh-stats-img').classList.add('hidden'); document.getElementById('gh-stats-fallback').classList.remove('hidden'); document.getElementById('gh-stats-fallback').classList.add('flex');"
+            >
         </div>
 
     </div>
