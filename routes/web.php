@@ -7,6 +7,17 @@ use App\Models\CoreStack;
 use App\Models\Project;
 use App\Models\Experience;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+
+// Rota temporária para rodar migrations na produção
+Route::get('/run-migrations', function () {
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        return "Migrations executadas com sucesso!<br><pre>" . Artisan::output() . "</pre>";
+    } catch (\Exception $e) {
+        return "Erro ao rodar migrations: " . $e->getMessage();
+    }
+});
 
 // Rotas de Login
 Route::get('/login', 
