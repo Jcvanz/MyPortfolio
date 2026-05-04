@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CoreStack;
 use App\Models\Project;
+use App\Models\Experience;
 
 class AdminController extends Controller
 {
@@ -17,8 +18,9 @@ class AdminController extends Controller
         ]);
 
         $coreStacks = CoreStack::all();
-        $projects = Project::latest()->get();
-        return view('admin_portifolio', compact('user', 'portfolio', 'coreStacks', 'projects'));
+        $projects = Project::orderByDesc('created_at')->get();
+        $experiences = Experience::orderBy('ordem', 'asc')->orderByDesc('created_at')->get();
+        return view('admin_portifolio', compact('user', 'portfolio', 'coreStacks', 'projects', 'experiences'));
     }
 
     public function update(Request $request) 
@@ -148,6 +150,59 @@ class AdminController extends Controller
     {
         Project::findOrFail($id)->delete();
         return redirect()->route('admin')->with('success', 'Projeto removido com sucesso!');
+    }
+
+    public function storeExperience(Request $request)
+    {
+        $request->validate([
+            'cargo'       => 'required|string|max:255',
+            'empresa'     => 'required|string|max:255',
+            'data_inicio' => 'required|string|max:50',
+        ]);
+
+        $data = $request->only(['cargo', 'empresa', 'local', 'tipo', 'data_inicio', 'data_fim', 'descricao', 'ordem']);
+
+        if ($request->tecnologias) {
+            $data['tecnologias'] = array_map('trim', explode(',', $request->tecnologias));
+        } else {
+            $data['tecnologias'] = [];
+        }
+
+        // Se data_fim estiver vazia, salva null (significa "Presente")
+        $data['data_fim'] = $request->filled('data_fim') ? $request->data_fim : null;
+
+        Experience::create($data);
+
+        return redirect()->route('admin')->with('success', 'Experiência adicionada com sucesso!');
+    }
+
+    public function updateExperience(Request $request, $id)
+    {
+        $experience = Experience::findOrFail($id);
+
+        $request->validate([
+            'cargo'       => 'required|string|max:255',
+            'empresa'     => 'required|string|max:255',
+            'data_inicio' => 'required|string|max:50',
+        ]);
+
+        $data = $request->only(['cargo', 'empresa', 'local', 'tipo', 'data_inicio', 'data_fim', 'descricao', 'ordem']);
+
+        if ($request->tecnologias) {
+            $data['tecnologias'] = array_map('trim', explode(',', $request->tecnologias));
+        }
+
+        $data['data_fim'] = $request->filled('data_fim') ? $request->data_fim : null;
+
+        $experience->update($data);
+
+        return redirect()->route('admin')->with('success', 'Experiência atualizada com sucesso!');
+    }
+
+    public function destroyExperience($id)
+    {
+        Experience::findOrFail($id)->delete();
+        return redirect()->route('admin')->with('success', 'Experiência removida com sucesso!');
     }
 
     public function updatePassword(Request $request)
