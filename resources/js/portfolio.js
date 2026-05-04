@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     labels: ['Backend', 'Frontend', 'Bancos de Dados', 'Arquitetura', 'Soft Skills', 'Deploy'],
                     datasets: [{
                         label: 'Proficiência',
-                        data: [75, 90, 75, 35, 95, 20], 
+                        data: [75, 90, 75, 35, 95, 55], 
                         backgroundColor: gradient,
                         borderColor: 'rgba(34, 211, 238, 0.8)',
                         borderWidth: 2,
