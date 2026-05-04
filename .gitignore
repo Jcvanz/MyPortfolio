@@ -25,5 +25,3 @@ Homestead.yaml
 Thumbs.db
 /package-lock.json
 /package.json
-/public/build
-/public/hot
