@@ -5,8 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Models\Portfolio;
 use App\Models\CoreStack;
 use App\Models\Project;
+use App\Models\Experience;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 
 // Rotas de Login
 Route::get('/login', 
@@ -44,12 +44,22 @@ Route::middleware('auth')->group(function() {
 
     Route::post('/admin/password', 
         [AdminController::class, 'updatePassword'])->name('admin.password.update');
+
+    Route::post('/admin/experience', 
+        [AdminController::class, 'storeExperience'])->name('admin.experience.store');
+
+    Route::put('/admin/experience/{id}', 
+        [AdminController::class, 'updateExperience'])->name('admin.experience.update');
+
+    Route::delete('/admin/experience/{id}', 
+        [AdminController::class, 'destroyExperience'])->name('admin.experience.destroy');
 });
 
 // Rotas do portifolio
 Route::get('/', function () {
-    $portfolio = Portfolio::first();
+    $portfolio = Portfolio::query()->first();
     $coreStacks = CoreStack::all();
-    $projects = Project::latest()->get();
-    return view('portifolio', compact('portfolio', 'coreStacks', 'projects'));
+    $projects = Project::orderByDesc('created_at')->get();
+    $experiences = Experience::orderBy('ordem', 'desc')->get();
+    return view('portifolio', compact('portfolio', 'coreStacks', 'projects', 'experiences'));
 })->name('portifolio');
