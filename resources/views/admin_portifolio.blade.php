@@ -226,6 +226,129 @@
             </div>
         </div>
 
+        <!-- Gerenciamento de Experiências Profissionais -->
+        <div class="flex flex-col gap-4 mb-12">
+            <h2 class="text-base md:text-lg font-semibold text-zinc-400">Experiências Profissionais</h2>
+            <div class="p-4 md:p-10 bg-zinc-800 rounded-xl">
+                <!-- Adicionar nova Experiência -->
+                <form action="{{ route('admin.experience.store') }}" method="POST" class="grid grid-cols-4 gap-4 mb-10 border-b border-zinc-700 pb-10">
+                    @csrf
+                    <div class="col-span-4">
+                        <p class="text-sm text-zinc-500 mb-4">Preencha os campos abaixo para adicionar uma nova experiência. O campo "Fim" deixe em branco se for o emprego atual.</p>
+                    </div>
+                    <!-- Cargo -->
+                    <div class="col-span-4 md:col-span-2">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Cargo *</label>
+                        <input type="text" name="cargo" required placeholder="Ex: Desenvolvedor Full Stack"
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                    </div>
+                    <!-- Empresa -->
+                    <div class="col-span-4 md:col-span-2">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Empresa *</label>
+                        <input type="text" name="empresa" required placeholder="Ex: Google"
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                    </div>
+                    <!-- Local -->
+                    <div class="col-span-4 md:col-span-2">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Local</label>
+                        <input type="text" name="local" placeholder="Ex: São Paulo, SP (Remoto)"
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                    </div>
+                    <!-- Tipo -->
+                    <div class="col-span-4 md:col-span-2">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Modalidade</label>
+                        <select name="tipo" class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                            <option value="">Selecione...</option>
+                            <option value="CLT">CLT</option>
+                            <option value="PJ">PJ</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Estágio">Estágio</option>
+                            <option value="Voluntário">Voluntário</option>
+                        </select>
+                    </div>
+                    <!-- Data Início -->
+                    <div class="col-span-4 md:col-span-1">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Início *</label>
+                        <input type="text" name="data_inicio" required placeholder="Ex: Jan 2023"
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                    </div>
+                    <!-- Data Fim -->
+                    <div class="col-span-4 md:col-span-1">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Fim <span class="text-zinc-600 text-xs">(vazio = Atual)</span></label>
+                        <input type="text" name="data_fim" placeholder="Ex: Dez 2024"
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                    </div>
+                    <!-- Ordem -->
+                    <div class="col-span-4 md:col-span-1">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Ordem</label>
+                        <input type="number" name="ordem" value="0" min="0"
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                    </div>
+                    <!-- Tecnologias -->
+                    <div class="col-span-4">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Tecnologias <span class="text-zinc-600 text-xs">(separadas por vírgula)</span></label>
+                        <input type="text" name="tecnologias" placeholder="Ex: Laravel, Vue.js, MySQL, Docker"
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500">
+                    </div>
+                    <!-- Descrição -->
+                    <div class="col-span-4">
+                        <label class="max-md:text-sm text-zinc-400 block mb-1">Descrição <span class="text-zinc-600 text-xs">(cada linha vira um bullet point)</span></label>
+                        <textarea name="descricao" rows="4" placeholder="Ex: Desenvolvi APIs RESTful com Laravel&#10;Integrei sistemas de pagamento&#10;Liderei equipe de 3 devs..."
+                            class="max-md:text-sm w-full px-4 py-2 border border-zinc-700 rounded-md bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-zinc-500 resize-none"></textarea>
+                    </div>
+                    <div class="col-span-4 flex justify-end mt-2">
+                        <button type="submit" class="px-8 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-md font-semibold transition shadow-lg shadow-cyan-900/20">
+                            Adicionar Experiência
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Listagem de Experiências -->
+                @if($experiences->isEmpty())
+                    <p class="text-zinc-500 text-sm italic text-center py-4">Nenhuma experiência cadastrada ainda.</p>
+                @else
+                <div class="space-y-4">
+                    @foreach($experiences as $exp)
+                    <div class="bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <h3 class="text-white font-bold truncate">{{ $exp->cargo }}</h3>
+                                @if(!$exp->data_fim)
+                                    <span class="text-[10px] font-mono text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full border border-green-400/20 flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Atual
+                                    </span>
+                                @endif
+                                @if($exp->tipo)
+                                    <span class="text-[10px] font-mono text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full border border-blue-400/20">{{ $exp->tipo }}</span>
+                                @endif
+                            </div>
+                            <p class="text-cyan-400 text-sm">{{ $exp->empresa }}</p>
+                            <p class="text-zinc-500 text-xs mt-0.5">{{ $exp->periodo }}{{ $exp->local ? ' · ' . $exp->local : '' }}</p>
+                        </div>
+                        <div class="flex gap-2 shrink-0">
+                            <button type="button"
+                                onclick="openEditExpModal({{ json_encode($exp) }})"
+                                class="px-3 py-2 bg-zinc-800 hover:bg-cyan-900/30 text-cyan-400 hover:text-cyan-300 border border-zinc-700 hover:border-cyan-500/50 rounded-lg text-sm transition-all flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                Editar
+                            </button>
+                            <form action="{{ route('admin.experience.destroy', $exp->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('Remover esta experiência?')"
+                                    class="px-3 py-2 bg-zinc-800 hover:bg-red-900/30 text-red-400 hover:text-red-300 border border-zinc-700 hover:border-red-500/50 rounded-lg text-sm transition-all flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    Remover
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                @endif
+            </div>
+        </div>
+
         <!-- Gerenciamento de Projetos -->
         <div class="flex flex-col gap-4 mb-12">
             <h2 class="text-base md:text-lg font-semibold text-zinc-400">Meus Projetos</h2>
@@ -415,3 +538,135 @@
         </form>
     </div>
 </div>
+
+<!-- MODAL DE EDIÇÃO DE EXPERIÊNCIA -->
+<div id="editExpModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div class="p-6 border-b border-zinc-800 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-white">Editar Experiência</h3>
+            <button onclick="closeEditExpModal()" class="text-zinc-500 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <form id="editExpForm" action="" method="POST" class="p-6 overflow-y-auto max-h-[75vh]">
+            @csrf
+            @method('PUT')
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Cargo *</label>
+                    <input type="text" name="cargo" id="exp_edit_cargo" required class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Empresa *</label>
+                    <input type="text" name="empresa" id="exp_edit_empresa" required class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Local</label>
+                    <input type="text" name="local" id="exp_edit_local" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Modalidade</label>
+                    <select name="tipo" id="exp_edit_tipo" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                        <option value="">Selecione...</option>
+                        <option value="CLT">CLT</option>
+                        <option value="PJ">PJ</option>
+                        <option value="Freelance">Freelance</option>
+                        <option value="Estágio">Estágio</option>
+                        <option value="Voluntário">Voluntário</option>
+                    </select>
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Início *</label>
+                    <input type="text" name="data_inicio" id="exp_edit_data_inicio" required placeholder="Ex: Jan 2023" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Fim <span class="text-zinc-600 text-xs">(vazio = Atual)</span></label>
+                    <input type="text" name="data_fim" id="exp_edit_data_fim" placeholder="Ex: Dez 2024" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="text-sm text-zinc-400 block mb-1">Ordem</label>
+                    <input type="number" name="ordem" id="exp_edit_ordem" min="0" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+                <div class="col-span-2">
+                    <label class="text-sm text-zinc-400 block mb-1">Tecnologias <span class="text-zinc-600 text-xs">(separadas por vírgula)</span></label>
+                    <input type="text" name="tecnologias" id="exp_edit_tecnologias" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="text-sm text-zinc-400 block mb-1">Descrição <span class="text-zinc-600 text-xs">(cada linha vira um bullet point)</span></label>
+                <textarea name="descricao" id="exp_edit_descricao" rows="5" class="w-full px-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-cyan-500 outline-none resize-none"></textarea>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t border-zinc-800">
+                <button type="button" onclick="closeEditExpModal()" class="px-6 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition">Cancelar</button>
+                <button type="submit" class="px-8 py-2 bg-cyan-600 text-white rounded-lg font-bold hover:bg-cyan-500 transition shadow-lg shadow-cyan-900/20">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// === MODAL DE PROJETO ===
+function openEditProjectModal(project) {
+    document.getElementById('edit_title').value = project.title || '';
+    document.getElementById('edit_tags').value  = Array.isArray(project.tags) ? project.tags.join(', ') : (project.tags || '');
+    document.getElementById('edit_description').value = project.description || '';
+    document.getElementById('edit_link').value  = project.link || '';
+
+    const preview = document.getElementById('edit_image_preview');
+    preview.innerHTML = project.image
+        ? `<img src="${project.image}" class="w-full h-full object-cover">`
+        : 'Sem imagem';
+
+    const baseUrl = '{{ url("admin/project") }}';
+    document.getElementById('editProjectForm').action = `${baseUrl}/${project.id}`;
+
+    const modal = document.getElementById('editProjectModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function closeEditProjectModal() {
+    const modal = document.getElementById('editProjectModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+// === MODAL DE EXPERIÊNCIA ===
+function openEditExpModal(exp) {
+    document.getElementById('exp_edit_cargo').value       = exp.cargo        || '';
+    document.getElementById('exp_edit_empresa').value     = exp.empresa      || '';
+    document.getElementById('exp_edit_local').value       = exp.local        || '';
+    document.getElementById('exp_edit_tipo').value        = exp.tipo         || '';
+    document.getElementById('exp_edit_data_inicio').value = exp.data_inicio  || '';
+    document.getElementById('exp_edit_data_fim').value    = exp.data_fim     || '';
+    document.getElementById('exp_edit_ordem').value       = exp.ordem        ?? 0;
+    document.getElementById('exp_edit_descricao').value   = exp.descricao    || '';
+    document.getElementById('exp_edit_tecnologias').value = Array.isArray(exp.tecnologias)
+        ? exp.tecnologias.join(', ')
+        : (exp.tecnologias || '');
+
+    const baseUrl = '{{ url("admin/experience") }}';
+    document.getElementById('editExpForm').action = `${baseUrl}/${exp.id}`;
+
+    const modal = document.getElementById('editExpModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function closeEditExpModal() {
+    const modal = document.getElementById('editExpModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+// Fechar modais ao clicar fora
+document.getElementById('editProjectModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditProjectModal();
+});
+document.getElementById('editExpModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditExpModal();
+});
+</script>
