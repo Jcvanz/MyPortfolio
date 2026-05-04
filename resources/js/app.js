@@ -1,4 +1,41 @@
 // Toggle de descrição em cards de projeto (Global com efeito Slide)
+window.switchExpTab = function(activeId) {
+    // Esconde todos os painéis
+    document.querySelectorAll('.exp-panel').forEach(panel => panel.classList.add('hidden'));
+
+    // Remove estado ativo de todos os tabs
+    document.querySelectorAll('.exp-tab').forEach(tab => {
+        tab.classList.remove('bg-cyan-500/10', 'border-cyan-400/50', 'text-cyan-300');
+        tab.classList.remove('shadow-[0_0_14px_rgba(34,211,238,0.15)]');
+        
+        tab.classList.add('bg-white/5', 'border-white/10', 'text-gray-400', 'hover:border-white/30', 'hover:text-white');
+        const indicator = tab.querySelector('.exp-tab-indicator');
+        if (indicator) {
+            indicator.classList.remove('opacity-100');
+            indicator.classList.add('opacity-0');
+        }
+        tab.setAttribute('aria-selected', 'false');
+    });
+
+    // Ativa o tab e painel corretos
+    const activePanel = document.getElementById('panel-' + activeId);
+    const activeTab   = document.getElementById('tab-'   + activeId);
+
+    if (activePanel) activePanel.classList.remove('hidden');
+    if (activeTab) {
+        activeTab.classList.remove('bg-white/5', 'border-white/10', 'text-gray-400', 'hover:border-white/30', 'hover:text-white');
+        
+        activeTab.classList.add('bg-cyan-500/10', 'border-cyan-400/50', 'text-cyan-300');
+        activeTab.classList.add('shadow-[0_0_14px_rgba(34,211,238,0.15)]');
+        const indicator = activeTab.querySelector('.exp-tab-indicator');
+        if (indicator) {
+            indicator.classList.remove('opacity-0');
+            indicator.classList.add('opacity-100');
+        }
+        activeTab.setAttribute('aria-selected', 'true');
+    }
+};
+
 window.toggleDescription = function(btn, targetId) {
     const p = document.getElementById(targetId);
     const isClamped = p.classList.contains('line-clamp-4');

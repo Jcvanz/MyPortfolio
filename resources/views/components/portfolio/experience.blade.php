@@ -174,35 +174,4 @@
     </div>
 
 </section>
-
-<script>
-function switchExpTab(activeId) {
-    // Esconde todos os painéis
-    document.querySelectorAll('.exp-panel').forEach(panel => panel.classList.add('hidden'));
-
-    // Remove estado ativo de todos os tabs
-    document.querySelectorAll('.exp-tab').forEach(tab => {
-        tab.className = tab.className
-            .replace('bg-cyan-500/10 border-cyan-400/50 text-cyan-300 shadow-[0_0_14px_rgba(34,211,238,0.15)]', '')
-            + ' bg-white/5 border-white/10 text-gray-400 hover:border-white/30 hover:text-white';
-        const indicator = tab.querySelector('.exp-tab-indicator');
-        if (indicator) indicator.classList.replace('opacity-100', 'opacity-0');
-        tab.setAttribute('aria-selected', 'false');
-    });
-
-    // Ativa o tab e painel corretos
-    const activePanel = document.getElementById('panel-' + activeId);
-    const activeTab   = document.getElementById('tab-'   + activeId);
-
-    if (activePanel) activePanel.classList.remove('hidden');
-    if (activeTab) {
-        activeTab.className = activeTab.className
-            .replace('bg-white/5 border-white/10 text-gray-400 hover:border-white/30 hover:text-white', '')
-            + ' bg-cyan-500/10 border-cyan-400/50 text-cyan-300 shadow-[0_0_14px_rgba(34,211,238,0.15)]';
-        const indicator = activeTab.querySelector('.exp-tab-indicator');
-        if (indicator) indicator.classList.replace('opacity-0', 'opacity-100');
-        activeTab.setAttribute('aria-selected', 'true');
-    }
-}
-</script>
 @endif
