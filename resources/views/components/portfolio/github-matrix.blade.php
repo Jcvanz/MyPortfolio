@@ -74,7 +74,7 @@
             <!-- Imagem Original -->
             <img 
                 id="gh-stats-img"
-                src="https://github-readme-stats.vercel.app/api?username=Jcvanz&show_icons=true&theme=vision-friendly-dark&hide_border=true&bg_color=00000000&text_color=9ca3af&title_color=3b82f6&icon_color=22d3ee" 
+                src="https://gh-readme-stats.vercel.app/api?username=Jcvanz&hide_title=true&show_icons=true&theme=vision-friendly-dark&hide_border=true&bg_color=00000000&text_color=9ca3af&title_color=3b82f6&icon_color=22d3ee" 
                 alt="GitHub Stats" 
                 class="w-full drop-shadow-[0_0_15px_rgba(59,130,246,0.1)] transition-transform duration-500 group-hover:scale-105"
                 onerror="document.getElementById('gh-stats-img').classList.add('hidden'); document.getElementById('gh-stats-fallback').classList.remove('hidden'); document.getElementById('gh-stats-fallback').classList.add('flex');"
