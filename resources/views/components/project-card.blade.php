@@ -95,7 +95,6 @@
 
 @once
 <style>
-    /* Mobile: card-active simula hover */
     @media (hover: none) {
         .project-card.card-active {
             border-color: rgba(34,211,238,0.5) !important;
@@ -153,6 +152,8 @@
         position: relative;
         width: 100%;
         max-width: 36rem;
+        max-height: 75vh;
+        overflow: hidden;       
         border-radius: 1rem;
         border: 1px solid rgba(255,255,255,0.1);
         background: rgba(15, 23, 42, 0.92);
@@ -165,6 +166,43 @@
         transform: scale(0.92) translateY(14px);
         transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1);
     }
+    #project-popover #pop-desc {
+        flex: 1;
+        min-height: 0;
+        max-height: 40vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(34,211,238,0.2) transparent;
+    }
+    #project-popover #pop-desc::-webkit-scrollbar {
+        width: 4px;
+    }
+    #project-popover #pop-desc::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    #project-popover #pop-desc::-webkit-scrollbar-thumb {
+        background: rgba(34,211,238,0.25);
+        border-radius: 99px;
+    }
+    /* Wrapper relativo para o gradiente ::after */
+    #project-popover .pop-desc-wrapper {
+        position: relative;
+    }
+    /* Gradiente que indica mais conteudo abaixo */
+    #project-popover .pop-desc-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3.5rem;
+        background: linear-gradient(to bottom, rgba(15,23,42,0), rgba(15,23,42,0.96));
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    #project-popover .pop-desc-wrapper.no-fade::after {
+        opacity: 0;
+    }
     #project-popover.is-open .pop-card {
         transform: scale(1) translateY(0);
     }
@@ -174,8 +212,7 @@
 </style>
 
 <script>
-    // ── Cria o popover global no <body> na primeira chamada ──
-    function getOrCreatePopover() {
+        function getOrCreatePopover() {
         let pop = document.getElementById('project-popover');
         if (pop) return pop;
 
@@ -202,7 +239,9 @@
                     </button>
                 </div>
 
-                <p id="pop-desc" style="color:#d1d5db;font-size:0.875rem;line-height:1.75;"></p>
+                <div class="pop-desc-wrapper">
+                    <p id="pop-desc" style="color:#d1d5db;font-size:0.875rem;line-height:1.75;padding-right:0.25rem;"></p>
+                </div>
 
                 <div id="pop-tags" style="display:flex;flex-wrap:wrap;gap:0.5rem;"></div>
 
@@ -256,6 +295,20 @@
         // Abre
         pop.classList.add('is-open');
         document.body.classList.add('popover-open');
+
+        // Gradiente de fade: some quando chegou ao fim ou nao tem scroll
+        const descEl      = pop.querySelector('#pop-desc');
+        const descWrapper = pop.querySelector('.pop-desc-wrapper');
+        descEl.scrollTop  = 0;
+        const checkFade = () => {
+            const atEnd    = descEl.scrollTop + descEl.clientHeight >= descEl.scrollHeight - 4;
+            const noScroll = descEl.scrollHeight <= descEl.clientHeight;
+            descWrapper.classList.toggle('no-fade', atEnd || noScroll);
+        };
+        if (descEl._fadeHandler) descEl.removeEventListener('scroll', descEl._fadeHandler);
+        descEl._fadeHandler = checkFade;
+        descEl.addEventListener('scroll', checkFade);
+        requestAnimationFrame(checkFade);
 
         // ESC
         document._popEsc = (e) => { if (e.key === 'Escape') closeProjectPopover(); };
