@@ -44,6 +44,16 @@ return [
             'transaction_mode' => 'DEFERRED',
         ],
 
+        'libsql' => [
+            'driver' => 'libsql',
+            'url' => env('DB_URL', env('TURSO_DB_URL')),
+            'authToken' => env('DB_AUTH_TOKEN', env('TURSO_DB_AUTH_TOKEN')),
+            'syncUrl' => env('DB_SYNC_URL', env('TURSO_DB_SYNC_URL')),
+            'syncAuthToken' => env('DB_SYNC_AUTH_TOKEN', env('TURSO_DB_SYNC_AUTH_TOKEN')),
+            'prefix' => '',
+            'database' => null,
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
