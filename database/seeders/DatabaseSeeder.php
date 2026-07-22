@@ -15,26 +15,32 @@ class DatabaseSeeder extends Seeder
    
     public function run(): void
     {
-        User::create([
-            'name' => 'Julio Cesar Vanz',
-            'email' => 'julio@example.com',
-            'password' => bcrypt('password'),
-        ]);
+        if (!User::where('email', 'julio@example.com')->exists()) {
+            User::create([
+                'name' => 'Julio Cesar Vanz',
+                'email' => 'julio@example.com',
+                'password' => bcrypt('password'),
+            ]);
+        }
 
-        Portfolio::create([
-            'name' => 'Julio Cesar Vanz',
-            'profissao' => 'Desenvolvedor Fullstack',
-            'resumo' => 'Desenvolvedor apaixonado por tecnologia...',
-            'email' => 'julio@example.com',
-            'github' => 'https://github.com/Jcvanz',
-            'linkedin' => 'https://linkedin.com/in/juliocesarvanz',
-            'cidade' => 'Blumenau',
-            'estado' => 'SC'
-        ]);
+        if (Portfolio::query()->doesntExist()) {
+            Portfolio::create([
+                'name' => 'Julio Cesar Vanz',
+                'profissao' => 'Desenvolvedor Fullstack',
+                'resumo' => 'Desenvolvedor apaixonado por tecnologia...',
+                'email' => 'julio@example.com',
+                'github' => 'https://github.com/Jcvanz',
+                'linkedin' => 'https://linkedin.com/in/juliocesarvanz',
+                'cidade' => 'Blumenau',
+                'estado' => 'SC'
+            ]);
+        }
 
-        CoreStack::create([
-            'name' => 'Laravel',
-            'icon' => 'https://raw.githubusercontent.com/devicons/devicon/master/icons/laravel/laravel-original.svg'
-        ]);
+        if (CoreStack::query()->doesntExist()) {
+            CoreStack::create([
+                'name' => 'Laravel',
+                'icon' => 'https://raw.githubusercontent.com/devicons/devicon/master/icons/laravel/laravel-original.svg'
+            ]);
+        }
     }
 }

@@ -56,6 +56,17 @@ Route::middleware('auth')->group(function() {
         [AdminController::class, 'destroyExperience'])->name('admin.experience.destroy');
 });
 
+// Rota utilitária para inicializar o banco de dados se estiver vazio
+Route::get('/setup-db', function () {
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        Artisan::call('db:seed', ['--force' => true]);
+        return '<h1>Database setup com sucesso!</h1><p>' . nl2br(Artisan::output()) . '</p><a href="/">Ir para o portfólio</a>';
+    } catch (\Throwable $e) {
+        return '<h1>Erro ao rodar setup-db:</h1><pre>' . $e->getMessage() . '</pre>';
+    }
+});
+
 // Rotas do portifolio
 Route::get('/', function () {
     $portfolio = Portfolio::query()->first();
