@@ -1,0 +1,48 @@
+services:
+  - type: web
+    name: portifolio-julio
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    # Render free tier: service sleeps after 15min of inactivity (~30s cold start)
+    plan: free
+
+    envVars:
+      - key: APP_NAME
+        value: "Portifolio"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true  # Render gera uma chave aleatoria automaticamente
+
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+
+      - key: DB_CONNECTION
+        value: libsql
+      # Coloque os valores reais no dashboard do Render em Environment Variables
+      - key: TURSO_DB_URL
+        sync: false
+      - key: TURSO_DB_AUTH_TOKEN
+        sync: false
+
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: SESSION_LIFETIME
+        value: "120"
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+
+      - key: FILESYSTEM_DISK
+        value: local
+
+      - key: BROADCAST_CONNECTION
+        value: log

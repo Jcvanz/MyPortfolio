@@ -3,7 +3,6 @@
 ARG PHP_VERSION=8.2
 ARG NODE_VERSION=22
 FROM ubuntu:22.04 as base
-LABEL fly_launch_runtime="laravel"
 
 # PHP_VERSION needs to be repeated here
 # See https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
