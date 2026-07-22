@@ -38,7 +38,7 @@ RUN apt-get update \
     && apt-get update \
     && apt-get -y --no-install-recommends install $(cat /tmp/php-packages.txt) \
     && ln -sf /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm \
-    && mkdir -p /var/www/html/public && echo "index" > /var/www/html/public/index.php \
+    && mkdir -p /var/www/html/public /var/run/php && echo "index" > /var/www/html/public/index.php \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 

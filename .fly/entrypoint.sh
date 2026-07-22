@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# Ensure php socket directory exists
+mkdir -p /var/run/php
+
 # Run user scripts, if they exist
 for f in /var/www/html/.fly/scripts/*.sh; do
     # Bail out this loop if any script exits with non-zero status code
